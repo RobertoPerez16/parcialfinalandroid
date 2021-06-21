@@ -21,7 +21,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(),400);
+            return response()->json($validator->errors());
         }
 
         $user = User::where('identificacion', $request->get('identificacion'))->get();
@@ -29,7 +29,7 @@ class AuthController extends Controller
         if (sizeof($user) != 0) {
             return response()->json([
                 'mensaje' => 'Este usuario ya se encuentra registrado'
-            ], 400);
+            ]);
         }
 
         $user_created = User::create($validator->validated());
@@ -47,7 +47,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return response()->json($validator->errors());
         }
 
         $user = User::where('email', $request->get('email'))->first();
@@ -55,7 +55,7 @@ class AuthController extends Controller
         if (empty($user)) {
             return response()->json([
                 'mensaje' => 'Este usuario o no está registrado, o no existe, por favor regístrese'
-            ], 404);
+            ]);
         }
 
         return response()->json([
@@ -80,7 +80,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'mensaje' => 'Todos los campos son requeridos'
-            ], 400);
+            ]);
         }
 
         $user = User::where('email',$request->get('email'))->first();
@@ -88,7 +88,7 @@ class AuthController extends Controller
         if (empty($user)) {
             return response()->json([
                 'mensaje' => 'Error al completar datos'
-            ], 404);
+            ]);
         }
 
         $user->telefono = $request->get('telefono');
