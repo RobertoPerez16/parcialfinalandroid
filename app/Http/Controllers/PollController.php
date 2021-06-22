@@ -28,7 +28,7 @@ class PollController extends Controller
             ]);
         }
 
-        $poll_search = Poll::where('user_id', $request->get('identificacion'))->first();
+        $poll_search = Poll::where('user_id', $request->get('user_id'))->first();
 
         if (empty($poll_search)) {
             $poll = Poll::create($validator->validated());
@@ -36,20 +36,19 @@ class PollController extends Controller
                 'mensaje' => 'Encuesta creada correctamente',
                 'encuesta' => $poll
             ]);
+        } else {
+            $poll_search->question_1 = $request->get('question_1');
+            $poll_search->question_2 = $request->get('question_2');
+            $poll_search->question_3 = $request->get('question_3');
+            $poll_search->question_4 = $request->get('question_4');
+            $poll_search->question_5 = $request->get('question_5');
+            $poll_search->average = $request->get('average');
+            $poll_search->save();
+
+            return response()->json([
+                'mensaje' => 'Usted a actualizado sus respuestas'
+            ]);
         }
-
-        $poll_search->question_1 = $request->get('question_1');
-        $poll_search->question_2 = $request->get('question_2');
-        $poll_search->question_3 = $request->get('question_3');
-        $poll_search->question_4 = $request->get('question_4');
-        $poll_search->question_5 = $request->get('question_5');
-        $poll_search->average = $request->get('average');
-        $poll_search->save();
-
-        return response()->json([
-            'mensaje' => 'Usted a actualizado sus respuestas'
-        ]);
-
     }
 
     public function obtenerEncuesta () {
