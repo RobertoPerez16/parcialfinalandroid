@@ -67,7 +67,7 @@ class AuthController extends Controller
 
     public function completarDatos (Request $request) {
         $validator = Validator::make($request->all(), [
-            'email' => 'sometimes|required|email|',
+            'identificacion' => 'required|string',
             'telefono' => 'required|string',
             'direccion' => 'required|string',
             'estado_civil' => 'required|string',
@@ -83,7 +83,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = User::where('email',$request->get('email'))->first();
+        $user = User::where('identificacion',$request->get('identificacion'))->first();
 
         if (empty($user)) {
             return response()->json([
