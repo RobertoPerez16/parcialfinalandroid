@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -50,11 +51,14 @@ class AuthController extends Controller
             return response()->json($validator->errors());
         }
 
-        $user = User::where('email', $request->get('email'))->first();
+        $user = DB::table('users')
+                    ->where('email', $request->get('email'))
+                    ->where('password', $request->get('password'))->first();
+
 
         if (empty($user)) {
             return response()->json([
-                'mensaje' => 'Este usuario o no está registrado, o no existe, por favor regístrese'
+                'mensaje' => 'Email o contraseña incorrectos'
             ]);
         }
 
