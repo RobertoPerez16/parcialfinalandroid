@@ -28,7 +28,7 @@ class PollController extends Controller
             ]);
         }
 
-        $poll_search = Poll::where('identificacion', $request->get('identificacion'))->first();
+        $poll_search = Poll::where('user_id', $request->get('identificacion'))->first();
 
         if (empty($poll_search)) {
             $poll = Poll::create($validator->validated());
